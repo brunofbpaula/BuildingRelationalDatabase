@@ -15,8 +15,8 @@ DROP TABLE T_POR_SINISTRO;
 DROP TABLE T_POR_LOCAL_SINISTRO;
 DROP TABLE T_POR_GUINCHO;
 DROP TABLE T_POR_PRESTADOR_SERVICO;
-DROP TABLE T_POR_VEICULO;
 DROP TABLE T_POR_CONTRATO;
+DROP TABLE T_POR_VEICULO;
 DROP TABLE T_POR_LOGIN_CLIENTE;
 DROP TABLE T_POR_ENDERECO_CLIENTE;
 DROP TABLE T_POR_TELEFONE_CLIENTE;
@@ -30,7 +30,7 @@ CREATE TABLE T_POR_CLIENTE(
     id_cliente INT CONSTRAINT T_POR_id_cliente NOT NULL,
     CONSTRAINT T_POR_pk_cliente PRIMARY KEY(id_cliente),
     -- UNIQUE
-    nr_cpf NUMERIC(12) CONSTRAINT T_POR_nr_cpf NOT NULL,
+    nr_cpf VARCHAR(15) CONSTRAINT T_POR_nr_cpf NOT NULL,
     CONSTRAINT T_POR_uk_nr_cpf UNIQUE(nr_cpf),
     -- NOT NULL
     nome_completo VARCHAR(80) CONSTRAINT T_POR_nome_completo NOT NULL,
@@ -83,25 +83,7 @@ CREATE TABLE T_POR_ENDERECO_CLIENTE(
     cidade VARCHAR(30),
     estado VARCHAR(20),
     nm_cep NUMERIC(8));
-    
-        
--- CONTRATO
-CREATE TABLE T_POR_CONTRATO(
-    -- PRIMARY KEY
-    id_contrato INT CONSTRAINT T_POR_id_contrato NOT NULL,
-    CONSTRAINT T_POR_pk_contrato PRIMARY KEY(id_contrato),
-    -- FOREIGN KEY
-    id_cliente INT CONSTRAINT T_POR_fk_con_id_cliente
-    REFERENCES T_POR_CLIENTE(id_cliente) NOT NULL,
-    -- NOT NULL
-    nm_apolice NUMERIC(11) CONSTRAINT T_POR_nm_apolice NOT NULL,
-    tp_cobertura VARCHAR(35) CONSTRAINT T_POR_tp_cobertura NOT NULL,
-    vl_franquia DECIMAL(7) CONSTRAINT T_POR_vl_franquia NOT NULL,
-    dt_inicio DATE CONSTRAINT T_POR_dt_inicio NOT NULL,
-    dt_fim DATE CONSTRAINT T_POR_dt_fim NOT NULL,
-    -- NULLABLE
-    clausulas VARCHAR(65));
-    
+     
 -- VEÍCULO
 CREATE TABLE T_POR_VEICULO(
     -- PRIMARY KEY
@@ -110,9 +92,6 @@ CREATE TABLE T_POR_VEICULO(
     -- FOREIGN KEYS
     id_cliente INT CONSTRAINT T_POR_fk_vei_id_cliente
     REFERENCES T_POR_CLIENTE(id_cliente) NOT NULL,
-    --
-    id_contrato INT CONSTRAINT T_POR_fk_vei_id_contrato
-    REFERENCES T_POR_CONTRATO(id_contrato) NOT NULL,
     -- NOT NULL
     nm_chassi VARCHAR(17) CONSTRAINT T_POR_nm_chassi NOT NULL,
     marca VARCHAR(30) CONSTRAINT T_POR_marca NOT NULL,
@@ -122,6 +101,26 @@ CREATE TABLE T_POR_VEICULO(
     -- NULLABLE
     blindagem CHAR(1),
     tp_combustivel VARCHAR(25));
+    
+-- CONTRATO
+CREATE TABLE T_POR_CONTRATO(
+    -- PRIMARY KEY
+    id_contrato INT CONSTRAINT T_POR_id_contrato NOT NULL,
+    CONSTRAINT T_POR_pk_contrato PRIMARY KEY(id_contrato),
+    -- FOREIGN KEY
+    id_cliente INT CONSTRAINT T_POR_fk_con_id_cliente
+    REFERENCES T_POR_CLIENTE(id_cliente) NOT NULL,
+    --
+    id_veiculo INT CONSTRAINT T_POR_fk_con_id_veiculo
+    REFERENCES T_POR_VEICULO(id_veiculo) NOT NULL,
+    -- NOT NULL
+    nm_apolice NUMERIC(11) CONSTRAINT T_POR_nm_apolice NOT NULL,
+    tp_cobertura VARCHAR(35) CONSTRAINT T_POR_tp_cobertura NOT NULL,
+    vl_franquia DECIMAL(7) CONSTRAINT T_POR_vl_franquia NOT NULL,
+    dt_inicio DATE CONSTRAINT T_POR_dt_inicio NOT NULL,
+    dt_fim DATE CONSTRAINT T_POR_dt_fim NOT NULL,
+    -- NULLABLE
+    clausulas VARCHAR(65));    
     
 -- PRESTADOR DE SERVIÇO
 CREATE TABLE T_POR_PRESTADOR_SERVICO(
