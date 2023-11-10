@@ -92,8 +92,10 @@ CREATE TABLE T_POR_VEICULO(
     -- FOREIGN KEYS
     id_cliente INT CONSTRAINT T_POR_fk_vei_id_cliente
     REFERENCES T_POR_CLIENTE(id_cliente) NOT NULL,
-    -- NOT NULL
+    -- UNIQUE
     nm_chassi VARCHAR(17) CONSTRAINT T_POR_nm_chassi NOT NULL,
+    CONSTRAINT T_POR_uk_nm_chassi UNIQUE(nm_chassi),
+    -- NOT NULL
     marca VARCHAR(30) CONSTRAINT T_POR_marca NOT NULL,
     modelo VARCHAR(45) CONSTRAINT T_POR_modelo NOT NULL,
     nm_ano SMALLINT CONSTRAINT T_POR_nm_ano NOT NULL,
