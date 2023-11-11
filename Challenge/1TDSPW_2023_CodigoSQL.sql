@@ -184,6 +184,9 @@ CREATE TABLE T_POR_AVISO_SINISTRO(
     --
     id_sinistro INT CONSTRAINT T_POR_fk_avi_id_sinistro
     REFERENCES T_POR_SINISTRO(id_sinistro) NOT NULL,
+    --
+    id_veiculo INT CONSTRAINT T_POR_fk_avi_id_veiculo
+    REFERENCES T_POR_VEICULO(id_veiculo) NOT NULL,
     -- NOT NULL
     dt_hr_aviso TIMESTAMP CONSTRAINT T_POR_dt_hr_aviso NOT NULL);
     
